@@ -1,19 +1,17 @@
 import sys
 
+import getpass
+
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
-"""
-    @TO-DO: "Ask for password in runtime, instead of supply it via terminal"
-"""
-if len(sys.argv) != 3:
-    print "You provided a wrong number of arguments."
-    sys.exit()
+# Auth
+EMAIL = raw_input('email: ')
+PASSWD = getpass.getpass('password: ')
 
-EMAIL = sys.argv[1]
-PASSWD = sys.argv[2]
-
-driver = webdriver.Firefox()
+# Driver selection
+# driver = webdriver.Firefox()
+driver = webdriver.PhantomJS()
 
 """
     @TO-DO: "Add a string template, add string file with birthday message"
