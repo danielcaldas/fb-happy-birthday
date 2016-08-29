@@ -1,26 +1,44 @@
 import sys
-
 import getpass
+import json
+import requests
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+
+message = ""
+M = 'male'
+F = 'feminine'
+NOT_SURE = 'gender uncertainty'
+
+driver = webdriver.PhantomJS()
+
+if len(sys.argv) > 2 and sys.argv[1] == '-m':
+    message = sys.argv[2]
 
 # Auth
 EMAIL = raw_input('email: ')
 PASSWD = getpass.getpass('password: ')
 
-# Driver selection
-# driver = webdriver.Firefox()
-driver = webdriver.PhantomJS()
+def check_gender(name):
+    res = json.loads(requests.get("https://api.genderize.io/", {'name': name}).text)
+    prob = res['probability']
+    if prob < 0.90:
+        return NOT_SURE
+    return res['gender']
 
 """
-    @TO-DO: "Add a string template, add string file with birthday message"
     @TO-DO: "Put this in another script"
-    @TO-DO: "Check user gender via genderize API https://api.genderize.io/?name=Daniel"
 """
 def format_message(user_name):
     first_name = user_name.split(' ')[0]
-    return "Parabens "+first_name+" :D ! Beijinhos"
+    gender = check_gender(first_name)
+    if gender == M:
+        return "Parabens "+first_name+" :D ! Abraco"
+    elif gender == F:
+        return "Parabens "+first_name+" ;D ! Beijinhos"
+    else:
+        return "Parabens "+first_name+" :) Felicidades"
 
 """
     @TO-DO: "Filter 'See Friendship' in report"
@@ -79,7 +97,7 @@ def wish_a_happy_birthday():
 def list_recent_birthdays():
     login_facebook()
     go_to_birthdays_page()
-    date = driver.find_element_by_xpath("//div[@class='fbEventsDashboardSection'][2]")
+    date = driver.find_element_by_xpath("//div[@class='fbEventsDashboardSection'][1]")
     i_user_link = 1
     while i_user_link < 3:
         # @TO-DO-REF[1]
@@ -93,4 +111,5 @@ def list_recent_birthdays():
 # wish_a_happy_birthday()
 
 # Call future birthday's provisionary
-print_birthdays_full_report()
+# print_birthdays_full_report()
+# list_recent_birthdays()
