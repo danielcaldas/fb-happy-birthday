@@ -80,9 +80,10 @@ def wish_a_happy_birthday():
     if div is not None:
         try:
             users_names = driver.find_element_by_class_name('_3ng2')
+            print users_names
             # @TO-DO[1]: "Missing for loop for each users_name in users_names"
-            text_areas = driver.find_element_by_xpath("//div[@class='innerWrap'][1]//textarea[1]")
-            text_areas.send_keys(format_message(users_names.text))
+            #text_areas = driver.find_element_by_xpath("//div[@class='innerWrap'][1]//textarea[1]")
+            #text_areas.send_keys(format_message(users_names.text))
             #text_areas.send_keys(Keys.RETURN)
         except:
             print "Maybe today is nobody's birthday :("
@@ -97,19 +98,14 @@ def wish_a_happy_birthday():
 def list_recent_birthdays():
     login_facebook()
     go_to_birthdays_page()
-    date = driver.find_element_by_xpath("//div[@class='fbEventsDashboardSection'][1]")
-    i_user_link = 1
-    while i_user_link < 3:
-        # @TO-DO-REF[1]
-        # Imagine a perfect loop birthday write wishes!
-        user_name = driver.find_element_by_xpath("//div[@id='events_birthday_view'][1]//a")
-        i_user_link = i_user_link + 1
-        print user_name
-        print user_name.text
+    friends = driver.find_elements_by_xpath("//li[@class='_43q7']//img")
+    print "Some Brithdays"
+    for f in friends:
+        print f.get_attribute('alt')
 
 # Call main task
 # wish_a_happy_birthday()
 
 # Call future birthday's provisionary
 # print_birthdays_full_report()
-# list_recent_birthdays()
+list_recent_birthdays()
