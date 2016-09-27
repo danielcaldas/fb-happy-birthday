@@ -1,7 +1,9 @@
 import sys
+import time
 import getpass
 import json
 import requests
+from progress.bar import Bar
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
@@ -12,6 +14,7 @@ F = 'feminine'
 NOT_SURE = 'gender uncertainty'
 
 driver = webdriver.PhantomJS()
+#driver = webdriver.Chrome('./chromedriver') # NO WORKZ
 
 if len(sys.argv) > 2 and sys.argv[1] == '-m':
     message = sys.argv[2]
@@ -71,22 +74,44 @@ def go_to_birthdays_page():
     their special time today (being 'today' the day you run the script)
 """
 def wish_a_happy_birthday():
+    bar = Bar('Processing', max=4)
     login_facebook()
+    bar.next()
+    time.sleep(5)
+    bar.next()
     go_to_birthdays_page()
+    bar.next()
+
     # For each birtday boy or girl leave a (before u have to build it)
     # message and click the 'Publish' button
     #p = driver.find_element_by_class_name('fwn').find_ ...
-    div = driver.find_element_by_id('events_birthday_view')
-    if div is not None:
+
+    # 1. Get all li's
+    # $x("//ul[@class='_3ng0']//li")
+    # 2. Get person name and input field to write message
+    # $x("//ul[@class='_3ng0']//li//div//a") NAMES
+    # $x("//ul[@class='_3ng0']//li//textarea") INPUTS
+
+    list_of_bdays = driver.find_elements_by_xpath("//ul[@class='_3ng0']//li")
+    if list_of_bdays is not None:
         try:
-            users_names = driver.find_element_by_class_name('_3ng2')
-            print users_names
+            for li in list_of_bdays:
+                # Please get this by xpath expression instead of split
+                fields = li.text.split('\n')
+                text_area = li.find_element_by_xpath('//textarea')
+                if text_area is not None:
+                    #print text_area
+                    text_area.send_keys(format_message(fields[0]))
+                    #text_area.send_keys(Keys.RETURN) ALMOST!
+
             # @TO-DO[1]: "Missing for loop for each users_name in users_names"
             #text_areas = driver.find_element_by_xpath("//div[@class='innerWrap'][1]//textarea[1]")
             #text_areas.send_keys(format_message(users_names.text))
             #text_areas.send_keys(Keys.RETURN)
+            bar.next()
         except:
-            print "Maybe today is nobody's birthday :("
+            print "I think today is nobody's birthday :("
+            bar.next()
 
 """
     @TO-DO: "List recent birthdays"
@@ -104,8 +129,7 @@ def list_recent_birthdays():
         print f.get_attribute('alt')
 
 # Call main task
-# wish_a_happy_birthday()
+wish_a_happy_birthday()
 
 # Call future birthday's provisionary
 # print_birthdays_full_report()
-list_recent_birthdays()

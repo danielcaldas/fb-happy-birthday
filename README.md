@@ -10,6 +10,7 @@
 - Selenium
 - Npm
 - PhantomJS
+- Python packages: getpass, json, requests, selenium, progress
 
 ## To Do
 
@@ -18,8 +19,7 @@
 - [X] Check user gender via genderize API https://api.genderize.io/?name=Daniel
 - [ ] Filter 'See Friendship' in birthdays report
 - [ ] List recent birthdays
-- [ ] Pass paramater to choose selenium driver
-- [ ] Add progress bar or similar animation to script
+- [X] Add progress bar or similar animation to script
 - [ ] Script for install automation
 - [X] Get a working proof of concept
 - [X] Ask for password in runtime, instead of supply it via terminal (also the email :))
