@@ -13,14 +13,14 @@ M = 'male'
 F = 'female'
 NOT_SURE = 'gender uncertainty'
 bar = Bar('Processing', max=5)
+NAME = 'NAME'
 
-diver = webdriver.PhantomJS()
+driver = webdriver.PhantomJS()
 # For testing only
 # driver = webdriver.Chrome('./chromedriver')
 
 if len(sys.argv) > 2 and sys.argv[1] == '-m':
     message = sys.argv[2]
-
 # Auth
 EMAIL = raw_input('email: ')
 PASSWD = getpass.getpass('password: ')
@@ -37,13 +37,19 @@ def check_gender(name):
 """
 def format_message(user_name):
     first_name = user_name.split(' ')[0]
-    gender = check_gender(first_name)
-    if gender == M:
-        return "Parabens "+first_name+" :D ! Abraco"
-    elif gender == F:
-        return "Parabens "+first_name+" ;D ! Beijinhos"
+    if message != '':
+        if NAME in message:
+            new_message = message.replace(NAME, first_name)
+            return new_message
+        return message
     else:
-        return "Parabens "+first_name+" :) Felicidades"
+        gender = check_gender(first_name)
+        if gender == M:
+            return "Parabens "+first_name+" :D ! Abraco"
+        elif gender == F:
+            return "Parabens "+first_name+" ;D ! Beijinhos"
+        else:
+            return "Parabens "+first_name+" :) Felicidades"
 
 """
     @TO-DO: "Filter 'See Friendship' in report"

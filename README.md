@@ -15,7 +15,7 @@
 ## To Do
 
 - [X] Add a string template, add string file with birthday message (config file passed as argument to script?)
-- [ ] Put this in another script
+- [ ] Put some code in another script
 - [ ] Create a bash interface
 - [ ] Add success and error logs
 - [ ] Change messages encoding to utf8
@@ -24,5 +24,6 @@
 - [ ] List recent birthdays
 - [X] Add progress bar or similar animation to script
 - [ ] Script for install automation
+- [X] Added custom message parameter
 - [X] Get a working proof of concept
 - [X] Ask for password in runtime, instead of supply it via terminal (also the email :))
