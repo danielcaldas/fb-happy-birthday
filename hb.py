@@ -1,3 +1,6 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
 import sys
 import time
 import getpass
@@ -7,6 +10,9 @@ from progress.bar import Bar
 
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+
+reload(sys)
+sys.setdefaultencoding('utf-8')
 
 message = ''
 M = 'male'
@@ -45,11 +51,11 @@ def format_message(user_name):
     else:
         gender = check_gender(first_name)
         if gender == M:
-            return "Parabens "+first_name+" :D ! Abraco"
+            return "Parabéns "+first_name+" :D ! Abraço"
         elif gender == F:
-            return "Parabens "+first_name+" ;D ! Beijinhos"
+            return "Parabéns "+first_name+" ;) ! Beijinhos"
         else:
-            return "Parabens "+first_name+" :) Felicidades"
+            return "Parabéns "+first_name+" :) Felicidades"
 
 """
     @TO-DO: "Filter 'See Friendship' in report"
