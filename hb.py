@@ -14,11 +14,11 @@ from selenium.webdriver.common.keys import Keys
 reload(sys)
 sys.setdefaultencoding('utf-8')
 
+bar = Bar('Wishing everyone a happy birthday!', max=5)
 message = ''
 M = 'male'
 F = 'female'
 NOT_SURE = 'gender uncertainty'
-bar = Bar('Processing', max=5)
 NAME = 'NAME'
 
 driver = webdriver.PhantomJS()
@@ -26,7 +26,8 @@ driver = webdriver.PhantomJS()
 # driver = webdriver.Chrome('./chromedriver')
 
 if len(sys.argv) > 2 and sys.argv[1] == '-m':
-    message = sys.argv[2]
+    if sys.argv[1] == '-m':
+        message = sys.argv[2]
 # Auth
 EMAIL = raw_input('email: ')
 PASSWD = getpass.getpass('password: ')
@@ -63,10 +64,10 @@ def format_message(user_name):
     a recent past, or the ones that are to come in a near future.
 """
 def print_birthdays_full_report():
-    login_facebook()
+    print 'Full report on your friends:\n'
     go_to_birthdays_page()
     birthdays = driver.find_element_by_xpath("//div[@id='events_birthday_view'][1]")
-    print birthdays.text
+    print birthdays.text, '\n\n'
 
 """
     Enter facebook with the provided credentials
@@ -84,12 +85,29 @@ def go_to_birthdays_page():
     driver.get('https://www.facebook.com/events/birthdays')
 
 """
+    Print a final report for the current session
+"""
+def actions_report(messages):
+    print '\n\nPeople you wished a happy birthday:\n'
+    if not messages:
+        print 'No one :( (maybe you already runned the script today..)\n'
+    else:
+        for msg in messages:
+            print msg
+    print '\n\nDone!'
+
+"""
     Wish a happy birthday to people who celebrate
     their special time today (being 'today' the day you run the script)
 """
 def wish_a_happy_birthday():
-    bar.next()
+    print "\nWorking on it...\n\n"
+
     login_facebook()
+
+    # Print a full birthdays report
+    print_birthdays_full_report()
+
     bar.next()
     time.sleep(2)
     bar.next()
@@ -99,19 +117,25 @@ def wish_a_happy_birthday():
     list_of_bdays = driver.find_elements_by_xpath("//ul[@class='_3ng0']//li")
     if list_of_bdays is not None:
         try:
+            sent_messages = []
             for li in list_of_bdays:
                 # Please get this by xpath expression instead of split
                 fields = li.text.split('\n')
                 try:
                     text_area = li.find_element_by_xpath('.//textarea')
                     if text_area is not None:
+                        sent_messages.append(format_message[0])
                         text_area.send_keys(format_message(fields[0]))
                         text_area.send_keys(Keys.ENTER)
                 except:
                     bar.next()
                     continue
+            bar.next()
+            actions_report(sent_messages)
         except:
             bar.next()
+    else:
+        print '\nNo birthdays for today, or you already runned the script today.\n'
 
 """
     @TO-DO: "List recent birthdays"
