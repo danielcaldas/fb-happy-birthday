@@ -4,13 +4,13 @@
 <br/>
 <br/>
 
-![Alt text](./img/work_in_progress.png)
+![Alt text](http://sinsip.com/medium/ts.png)
 
 ## Dependencies
 - Selenium
 - Npm
 - PhantomJS
-- Python packages: getpass, json, requests, selenium, progress
+- Python packages: getpass, json, requests, selenium, progress (**this are on requirements.txt**)
 
 ## To Do
 
