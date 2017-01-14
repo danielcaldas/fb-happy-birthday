@@ -124,8 +124,9 @@ def wish_a_happy_birthday():
                 try:
                     text_area = li.find_element_by_xpath('.//textarea')
                     if text_area is not None:
-                        sent_messages.append(format_message[0])
-                        text_area.send_keys(format_message(fields[0]))
+                        msg = format_message(fields[0])
+                        sent_messages.append(msg)
+                        text_area.send_keys(msg)
                         text_area.send_keys(Keys.ENTER)
                 except:
                     bar.next()
