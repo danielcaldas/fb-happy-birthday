@@ -1,6 +1,6 @@
 # fb-happy-birthday
 
-#### Today, wish a happy birthday to your facebook friends with a click! :tada: :tada: :tada: :tada: :tada: :tada:
+#### Today, wish a happy birthday to your facebook friends via command line! :tada: :tada: :tada: :tada: :tada: :tada:
 <br/>
 <br/>
 
